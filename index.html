@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>&#24773;&#22577;&#35506;Q&amp;A&#26908;&#32034;</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, Arial, sans-serif;
+      color: #16233b;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(0, 153, 221, 0.20), transparent 320px),
+        radial-gradient(circle at 88% 12%, rgba(0, 104, 183, 0.16), transparent 360px),
+        linear-gradient(180deg, #eef7ff 0, #f7fbff 44%, #f8fafc 100%);
+      line-height: 1.7;
+    }
+
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 42px 0;
+    }
+
+    .hero {
+      margin-bottom: 18px;
+      padding: 34px;
+      border: 1px solid rgba(0, 104, 183, 0.22);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0, rgba(255, 255, 255, 0.94) 58%, rgba(226, 244, 255, 0.98) 100%);
+      box-shadow: 0 18px 42px rgba(0, 88, 148, 0.14);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 6px;
+      background: linear-gradient(90deg, #0099dd, #0068b7 62%, #f6d900);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -120px;
+      width: 300px;
+      height: 300px;
+      border: 42px solid rgba(0, 153, 221, 0.08);
+      border-radius: 50%;
+    }
+
+    .header {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 12px;
+      padding: 5px 12px;
+      border: 1px solid rgba(0, 104, 183, 0.24);
+      border-radius: 999px;
+      color: #005b9f;
+      background: #f2f9ff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: 0;
+      color: #073b75;
+    }
+
+    .lead {
+      margin: 0;
+      color: #5b6472;
+      font-size: 16px;
+    }
+
+    .search-panel {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(0, 104, 183, 0.22);
+      border-radius: 8px;
+      box-shadow: 0 12px 28px rgba(31, 55, 84, 0.10);
+      position: sticky;
+      top: 12px;
+      z-index: 2;
+    }
+
+    label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    input {
+      width: 100%;
+      min-height: 52px;
+      padding: 12px 16px 12px 44px;
+      border: 1px solid #b7c7d9;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #111827;
+      background:
+        linear-gradient(transparent, transparent),
+        #ffffff;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%230068b7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 14px center;
+    }
+
+    input:focus {
+      outline: 3px solid #bde7ff;
+      border-color: #0099dd;
+    }
+
+    button {
+      min-width: 112px;
+      min-height: 52px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      background: #0074bf;
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(0, 104, 183, 0.22);
+    }
+
+    button:hover {
+      background: #005b9f;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 24px;
+      background: #ffffff;
+      border: 1px solid rgba(0, 104, 183, 0.18);
+      border-radius: 8px;
+      min-height: 110px;
+      box-shadow: 0 10px 24px rgba(31, 55, 84, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: #0099dd;
+    }
+
+    .result-title {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #073b75;
+    }
+
+    .result-text {
+      margin: 0 0 12px;
+      color: #374151;
+    }
+
+    .result-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      margin-top: 8px;
+      margin-right: 8px;
+      padding: 9px 13px;
+      border: 1px solid #b4d5f0;
+      border-radius: 6px;
+      color: #005b9f;
+      background: #f8fbff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .result-link:hover {
+      border-color: #0099dd;
+      background: #edf8ff;
+    }
+
+    @media (max-width: 640px) {
+      main {
+        width: min(100% - 24px, 920px);
+        padding: 32px 0;
+      }
+
+      .hero {
+        padding: 24px 18px;
+      }
+
+      .search-panel {
+        position: static;
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="header">
+        <p class="eyebrow">&#24773;&#22577;&#35506;&#12469;&#12509;&#12540;&#12488;</p>
+        <h1>&#24773;&#22577;&#35506;Q&amp;A&#26908;&#32034;</h1>
+        <p class="lead">&#12461;&#12540;&#12527;&#12540;&#12489;&#12434;&#20837;&#21147;&#12375;&#12390;&#12289;&#25163;&#38918;&#12420;&#23550;&#20966;&#26041;&#27861;&#12434;&#26908;&#32034;&#12391;&#12365;&#12414;&#12377;&#12290;</p>
+      </div>
+    </section>
+
+    <section class="search-panel" aria-label="FAQ search">
+      <label for="keyword">&#26908;&#32034;&#12461;&#12540;&#12527;&#12540;&#12489;</label>
+      <input id="keyword" type="search" placeholder="&#20363;&#65306;&#12503;&#12522;&#12531;&#12479;&#12540;&#12289;DB&#12289;&#12487;&#12540;&#12479;&#12505;&#12540;&#12473;&#12289;&#12473;&#12461;&#12515;&#12531;" autocomplete="off">
+      <button id="searchButton" type="button">&#26908;&#32034;</button>
+    </section>
+
+    <section id="result" class="result" aria-live="polite">
+      <p class="result-title">&#26908;&#32034;&#32080;&#26524;</p>
+      <p class="result-text">&#26908;&#32034;&#12375;&#12383;&#12356;&#12461;&#12540;&#12527;&#12540;&#12489;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;</p>
+    </section>
+
+  </main>
+
+  <script>
+    const consultationLink = {
+      label: "\u60c5\u5831\u8ab2\u76f8\u8ac7\u7a93\u53e3",
+      url: "https://teams.microsoft.com/l/channel/19%3Acb64c7d660ac40a6a9c16def9327144e%40thread.tacv2/03.%E6%83%85%E5%A0%B1%E8%AA%B2%E3%80%81%E7%9B%B8%E8%AB%87%E7%AA%93%E5%8F%A3?groupId=7bbd12a1-841a-449b-883f-6d1c587d272b&tenantId=b7c48bd6-82a9-47f1-a02d-cf6b217feb4a"
+    };
+
+    const faqData = [
+      {
+        keywords: ["\u30d7\u30ea\u30f3\u30bf\u30fc", "\u3077\u308a\u3093\u305f\u30fc", "\u5370\u5237", "\u8a2d\u5b9a"],
+        title: "\u30d7\u30ea\u30f3\u30bf\u30fc",
+        answer: "\u30d7\u30ea\u30f3\u30bf\u30fc\u8a2d\u5b9a\u624b\u9806\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "\u30d7\u30ea\u30f3\u30bf\u30fc\u8a2d\u5b9a\u624b\u9806",
+            url: "https://takase291101.sharepoint.com/sites/msteams_a867a2/Shared%20Documents/Forms/view.aspx?id=%2Fsites%2Fmsteams%5Fa867a2%2FShared%20Documents%2F03%2E%E6%83%85%E5%A0%B1%E8%AA%B2%E3%80%81%E7%9B%B8%E8%AB%87%E7%AA%93%E5%8F%A3%2F%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3%E5%88%9D%E6%9C%9F%E8%A8%AD%E5%AE%9A%E2%85%A2%E3%80%80%E3%82%B9%E3%82%AD%E3%83%A3%E3%83%B3%E8%A8%AD%E5%AE%9A%E7%B7%A8%202%2Epdf&parent=%2Fsites%2Fmsteams%5Fa867a2%2FShared%20Documents%2F03%2E%E6%83%85%E5%A0%B1%E8%AA%B2%E3%80%81%E7%9B%B8%E8%AB%87%E7%AA%93%E5%8F%A3&p=true&ga=1"
+          }
+        ]
+      },
+      {
+        keywords: ["DB\u57fa\u672c\u64cd\u4f5c", "db\u57fa\u672c\u64cd\u4f5c", "DB", "db", "\u30c7\u30fc\u30bf\u30d9\u30fc\u30b9", "\u3067\u30fc\u305f\u3079\u30fc\u3059", "\u57fa\u672c\u64cd\u4f5c"],
+        title: "DB\u64cd\u4f5c\u65b9\u6cd5",
+        answer: "DB\u57fa\u672c\u64cd\u4f5c\u65b9\u6cd5\u624b\u9806\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "DB\u57fa\u672c\u64cd\u4f5c\u65b9\u6cd5\u624b\u9806",
+            url: "https://apricot-math-ece.notion.site/34c4cc0f8ffd80a3967fc4cedf078081"
+          },
+          {
+            label: "\u4fdd\u7559\u7b49\u64cd\u4f5c\u65b9\u6cd5",
+            url: "https://apricot-math-ece.notion.site/34c4cc0f8ffd80d687c7e7454716bd45?pvs=25"
+          },
+          {
+            label: "\u7ba1\u7406\u53f0\u5e33\u30de\u30cb\u30e5\u30a2\u30eb",
+            url: "https://apricot-math-ece.notion.site/3604cc0f8ffd802eb73fcfaabe03f302?pvs=25"
+          },
+          {
+            label: "\u305d\u306e\u4ed6",
+            url: "https://apricot-math-ece.notion.site/34c4cc0f8ffd803c960aee7ea25df8c2?pvs=25"
+          }
+        ]
+      },
+      {
+        keywords: ["\u30b9\u30ad\u30e3\u30f3", "\u3059\u304d\u3083\u3093", "\u30b9\u30ad\u30e3\u30ca", "\u30b9\u30ad\u30e3\u30ca\u30fc", "\u4e0d\u5177\u5408", "\u3067\u304d\u306a\u3044", "\u8aad\u307f\u53d6\u308a", "\u89e3\u6d88", "\u5bfe\u51e6"],
+        title: "\u30b9\u30ad\u30e3\u30f3\u304c\u51fa\u6765\u306a\u304f\u306a\u3063\u305f\u6642\u306e\u5bfe\u51e6\u65b9\u6cd5",
+        answer: "\u30b9\u30ad\u30e3\u30f3\u4e0d\u5177\u5408\u89e3\u6d88\u65b9\u6cd5\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "\u30b9\u30ad\u30e3\u30f3\u4e0d\u5177\u5408\u89e3\u6d88\u65b9\u6cd5\u2460",
+            url: "https://takase291101-my.sharepoint.com/:v:/g/personal/admin_takase291101_onmicrosoft_com/IQBM2qjwcuj4SZHUBwUNfp0DAZl2rBSTbaeFvt9QLWIWMBc?e=Ijb7uZ"
+          },
+          {
+            label: "\u30b9\u30ad\u30e3\u30f3\u4e0d\u5177\u5408\u89e3\u6d88\u65b9\u6cd5\u2461",
+            url: "https://takase291101-my.sharepoint.com/:v:/g/personal/admin_takase291101_onmicrosoft_com/IQATIfH6LIK9R4kh7Tk_um1rAaWapmpilKjKItJMRD0KB4E?e=ucJFvO"
+          }
+        ]
+      },
+      {
+        keywords: ["PC\u64cd\u4f5c", "pc\u64cd\u4f5c", "PC", "pc", "\u30d1\u30bd\u30b3\u30f3", "\u64cd\u4f5c", "\u30a6\u30a4\u30eb\u30b9", "\u8b66\u544a", "\u30dd\u30c3\u30d7\u30a2\u30c3\u30d7", "Excel", "excel", "Word", "word", "ZIP", "zip", "\u534a\u89d2", "\u5168\u89d2", "\u30ab\u30ca", "\u3072\u3089\u304c\u306a", "\u5bb9\u91cf\u4e0d\u8db3", "PDF", "pdf"],
+        title: "PC\u64cd\u4f5c\u30fbPC\u95a2\u9023\u306e\u554f\u3044\u5408\u308f\u305b",
+        answer: "\u8a72\u5f53\u3059\u308b\u5bfe\u51e6\u65b9\u6cd5\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "\u30a6\u30a4\u30eb\u30b9\u8b66\u544a\u306e\u30dd\u30c3\u30d7\u30a2\u30c3\u30d7\u304c\u4f5c\u52d5\u3057\u3066\u30d1\u30bd\u30b3\u30f3\u304c\u64cd\u4f5c\u3067\u304d\u306a\u3044",
+            url: "https://app.notion.com/p/33a4cc0f8ffd80d1bae9caeffff389a2?source=copy_link"
+          },
+          {
+            label: "\u30d6\u30e9\u30a6\u30b6\u7248\u306eExcel\uff08Word\uff09\u306b\u30b5\u30a4\u30f3\u30a4\u30f3\u3067\u304d\u306a\u3044",
+            url: "https://app.notion.com/p/Excel-Word-33d4cc0f8ffd80eaa69de52a59118eb2"
+          },
+          {
+            label: "ZIP\u30d5\u30a1\u30a4\u30eb\u306e\u4f5c\u6210\u3001\u5c55\u958b\u304c\u3067\u304d\u306a\u304f\u306a\u3063\u305f",
+            url: "https://app.notion.com/p/ZIP-33d4cc0f8ffd8048bee2f181799a650e"
+          },
+          {
+            label: "PC\u5165\u66ff\u5f8c\u3001\u534a\u89d2\uff0f\u5168\u89d2\u30ad\u30fc\u304c\u53cd\u5fdc\u3057\u306a\u3044",
+            url: "https://app.notion.com/p/PC-33d4cc0f8ffd80e68fe1f577cceb1b7e"
+          },
+          {
+            label: "PC\u306e\u5bb9\u91cf\u4e0d\u8db3\u3067\u3001PDF\u304c\u7834\u640d\u3057\u305f\u308a\u3001\u30c1\u30fc\u30e0\u30ba\u304c\u958b\u304b\u306a\u3044",
+            url: "https://app.notion.com/p/PC-PDF-35b4cc0f8ffd80789eecc64af6cd3ede?source=copy_link"
+          }
+        ]
+      },
+      {
+        keywords: ["\u307f\u3089\u3044\u3048", "\u30df\u30e9\u30a4\u30a8", "miraie", "\u30dd\u30fc\u30bf\u30eb", "\u5468\u8fba\u65bd\u8a2d", "\u30de\u30b9\u30bf", "\u767b\u9332"],
+        title: "\u307f\u3089\u3044\u3048",
+        answer: "\u307f\u3089\u3044\u3048\u95a2\u9023\u306e\u5bfe\u51e6\u65b9\u6cd5\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "\u307f\u3089\u3044\u3048\u306e\u30dd\u30fc\u30bf\u30eb\u30b5\u30a4\u30c8\u306e\u67a0\u3092\u73fe\u72b6\u67a0\u306b\u4fee\u6b63\u3057\u305f\u3044",
+            url: "https://apricot-math-ece.notion.site/33a4cc0f8ffd80c287b0e7c53608edd0"
+          },
+          {
+            label: "\u307f\u3089\u3044\u3048\u306e\u5468\u8fba\u65bd\u8a2d\u30de\u30b9\u30bf\u767b\u9332\u306b\u3064\u3044\u3066",
+            url: "https://apricot-math-ece.notion.site/33d4cc0f8ffd803db4a8fde04f57701e"
+          }
+        ]
+      },
+      {
+        keywords: ["Forms", "forms", "Froms", "froms", "\u30d5\u30a9\u30fc\u30e0", "\u30d5\u30a9\u30fc\u30e0\u30ba", "\u4f7f\u3044\u65b9"],
+        title: "Forms",
+        answer: "Forms\u306e\u4f7f\u3044\u65b9\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "Forms\u306e\u4f7f\u3044\u65b9",
+            url: "https://apricot-math-ece.notion.site/Froms-33d4cc0f8ffd80bd982ffd7dac1b58d4"
+          }
+        ]
+      },
+      {
+        keywords: ["Adobe", "adobe", "Acrobat", "acrobat", "\u30a2\u30c9\u30d3", "\u30a2\u30af\u30ed\u30d0\u30c3\u30c8", "\u30a8\u30e9\u30fc", "\u5fa9\u5143"],
+        title: "Adobe Acrobat",
+        answer: "Adobe Acrobat\u306e\u30a8\u30e9\u30fc\u5bfe\u51e6\u65b9\u6cd5\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "Adobe Acrobat\u306e\u30a8\u30e9\u30fc\u753b\u9762\u304c\u51fa\u308b\u3002\u5fa9\u5143\u3092\u62bc\u3057\u3066\u3082\u623b\u3089\u306a\u3044",
+            url: "https://apricot-math-ece.notion.site/Adobe-Acrobat-33d4cc0f8ffd80beb04ccb161da8f2c2"
+          }
+        ]
+      },
+      {
+        keywords: ["Teams", "teams", "\u30c1\u30fc\u30e0", "\u30c1\u30fc\u30e0\u30b9", "\u30c1\u30fc\u30e0\u30ba", "\u5171\u6709\u6e08\u307f", "\u5171\u6709", "\u30d5\u30a9\u30eb\u30c0", "\u95b2\u89a7", "\u30b9\u30de\u30db", "\u96fb\u8a71", "\u901a\u8a71", "\u7570\u52d5", "\u5e97\u8217", "\u9000\u4f1a", "\u30c1\u30e3\u30c3\u30c8", "\u5c65\u6b74", "\u30c1\u30e3\u30cd\u30eb", "\u66f4\u65b0", "PDF", "pdf", "\u4e0d\u8abf"],
+        title: "Teams",
+        answer: "Teams\u95a2\u9023\u306e\u5bfe\u51e6\u65b9\u6cd5\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "\u300c\u5171\u6709\u6e08\u307f\u300d\u306e\u30d5\u30a9\u30eb\u30c0\u306e\u95b2\u89a7\u304c\u3067\u304d\u306a\u304f\u306a\u3063\u305f",
+            url: "https://apricot-math-ece.notion.site/33d4cc0f8ffd80a39d74df7004c5fb91"
+          },
+          {
+            label: "\u30b9\u30de\u30db\u3067\u96fb\u8a71\u3092\u304b\u3051\u3066\u30821\u30b3\u30fc\u30eb\u3067\u5207\u308c\u308b\u3001\u307e\u305f\u306f\u5fdc\u7b54\u3057\u3066\u3082\u3059\u3050\u5207\u308c\u3066\u3057\u307e\u3046",
+            url: "https://apricot-math-ece.notion.site/1-33d4cc0f8ffd8086b44ec26b9f37050d"
+          },
+          {
+            label: "\u7570\u52d5\u524d\u306e\u5e97\u8217\u306e\u30c1\u30fc\u30e0\u304b\u3089\u9000\u4f1a\u3057\u305f\u3044",
+            url: "https://apricot-math-ece.notion.site/33d4cc0f8ffd80a2ab94d99ea9fa2f97?pvs=25"
+          },
+          {
+            label: "\u30c1\u30e3\u30c3\u30c8\u5c65\u6b74\u3001\u30c1\u30e3\u30cd\u30eb\u304c\u66f4\u65b0\u3055\u308c\u306a\u304f\u306a\u3063\u305f",
+            url: "https://apricot-math-ece.notion.site/33e4cc0f8ffd80a7b153d43025ed1515"
+          },
+          {
+            label: "Teams\u304b\u3089PDF\u3092\u958b\u3044\u3066\u3082\u30a8\u30e9\u30fc\u304c\u51fa\u308b",
+            url: "https://apricot-math-ece.notion.site/Teams-PDF-35b4cc0f8ffd804bbc7bef6610a742d3"
+          },
+          {
+            label: "\u305d\u306e\u4ed6\uff1a\u30c1\u30fc\u30e0\u30b9\u304c\u4e0d\u8abf",
+            url: "https://apricot-math-ece.notion.site/35b4cc0f8ffd807d86cee28fdf103e5b"
+          }
+        ]
+      },
+      {
+        keywords: ["\u30e1\u30fc\u30eb", "\u3081\u30fc\u308b", "mail", "Mail", "Outlook", "outlook", "icloud", "iCloud", "onmicrosoft", "takase291101.onmicrosoft.com", "\u9001\u308c\u306a\u3044", "\u9001\u4fe1", "\u30a2\u30c9\u30ec\u30b9"],
+        title: "\u30e1\u30fc\u30eb",
+        answer: "\u30e1\u30fc\u30eb\u95a2\u9023\u306e\u5bfe\u51e6\u65b9\u6cd5\u306f\u3053\u3061\u3089",
+        links: [
+          {
+            label: "@takase291101.onmicrosoft.com\u3067\u30e1\u30fc\u30eb\u304c\u9001\u308c\u306a\u3044",
+            url: "https://apricot-math-ece.notion.site/takase291101-onmicrosoft-com-33d4cc0f8ffd809980b7c1a683f5a33b"
+          },
+          {
+            label: "Outlook\u304b\u3089\uff20icloud\u306e\u30a2\u30c9\u30ec\u30b9\u306b\u30e1\u30fc\u30eb\u304c\u9001\u308c\u306a\u3044",
+            url: "https://apricot-math-ece.notion.site/outlook-icloud-33d4cc0f8ffd80c8a939c39bc9eef515"
+          }
+        ]
+      }
+    ];
+
+    const keywordInput = document.getElementById("keyword");
+    const searchButton = document.getElementById("searchButton");
+    const result = document.getElementById("result");
+
+    function normalizeText(text) {
+      return text.trim().toLowerCase();
+    }
+
+    function showMessage(title, message) {
+      result.innerHTML = `
+        <p class="result-title">${title}</p>
+        <p class="result-text">${message}</p>
+      `;
+    }
+
+    function createLinkHtml(link) {
+      return `<a class="result-link" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`;
+    }
+
+    function calculateMatchScore(item, keyword) {
+      const title = normalizeText(item.title);
+      const answer = normalizeText(item.answer);
+      const keywords = item.keywords.map(normalizeText);
+      const linkLabels = item.links.map((link) => normalizeText(link.label));
+      let score = 0;
+
+      if (title === keyword) {
+        score += 120;
+      } else if (title.includes(keyword) || keyword.includes(title)) {
+        score += 70;
+      }
+
+      keywords.forEach((itemKeyword) => {
+        if (itemKeyword === keyword) {
+          score += 100;
+        } else if (itemKeyword.startsWith(keyword) || keyword.startsWith(itemKeyword)) {
+          score += 80;
+        } else if (itemKeyword.includes(keyword) || keyword.includes(itemKeyword)) {
+          score += 55;
+        }
+      });
+
+      linkLabels.forEach((label) => {
+        if (label.includes(keyword)) {
+          score += 25;
+        }
+      });
+
+      if (answer.includes(keyword)) {
+        score += 10;
+      }
+
+      return score;
+    }
+
+    function searchFaq() {
+      const keyword = normalizeText(keywordInput.value);
+
+      if (!keyword) {
+        showMessage("\u691c\u7d22\u7d50\u679c", "\u691c\u7d22\u3057\u305f\u3044\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044\u3002");
+        return;
+      }
+
+      const matchedFaq = faqData
+        .map((item) => ({
+          item,
+          score: calculateMatchScore(item, keyword)
+        }))
+        .filter((match) => match.score > 0)
+        .sort((a, b) => b.score - a.score)[0]?.item;
+
+      if (!matchedFaq) {
+        result.innerHTML = `
+          <p class="result-title">\u60c5\u5831\u8ab2\u76f8\u8ac7\u7a93\u53e3\u3078\u3054\u76f8\u8ac7\u304f\u3060\u3055\u3044</p>
+          <p class="result-text">Q&A\u306b\u898b\u3064\u304b\u3089\u306a\u3044\u5185\u5bb9\u3067\u3059\u3002\u4e0b\u306e\u30ea\u30f3\u30af\u304b\u3089\u60c5\u5831\u8ab2\u3078\u304a\u554f\u3044\u5408\u308f\u305b\u304f\u3060\u3055\u3044\u3002</p>
+          ${createLinkHtml(consultationLink)}
+        `;
+        return;
+      }
+
+      const linkHtml = matchedFaq.links.map(createLinkHtml).join("");
+
+      result.innerHTML = `
+        <p class="result-title">${matchedFaq.title}</p>
+        <p class="result-text">${matchedFaq.answer}</p>
+        ${linkHtml}
+      `;
+    }
+
+    searchButton.addEventListener("click", searchFaq);
+    keywordInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        searchFaq();
+      }
+    });
+  </script>
+</body>
+</html>
